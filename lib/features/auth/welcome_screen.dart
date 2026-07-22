@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -6,61 +8,75 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: Stack(
+        children: [
 
-              const Spacer(),
-
-              const Icon(
-                Icons.hotel,
-                size: 90,
-                color: Colors.indigo,
-              ),
-
-              const SizedBox(height: 20),
-
-              const Text(
-                "Welcome!",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
-              const Text(
-                "Find and book the perfect hotel anywhere in the world.",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-
-              const Spacer(),
-
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  child: const Text(
-                    "Get Started",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-            ],
+          SizedBox.expand(
+            child: Image.asset(
+              'assets/images/hotel.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+
+          Container(
+            color: Colors.black.withOpacity(0.45),
+          ),
+
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  const Spacer(),
+
+                  Text(
+                    "Find Your Perfect Stay",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Text(
+                    "Book luxury hotels, budget rooms and unforgettable experiences.",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Get Started",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

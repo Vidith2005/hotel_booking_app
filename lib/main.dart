@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'features/auth/login_screen.dart';
+import 'features/auth/welcome_screen.dart';
 
 void main() {
   runApp(const HotelBookingApp());
@@ -17,7 +18,7 @@ class HotelBookingApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.indigo,
       ),
-      home: const SplashScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
