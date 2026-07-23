@@ -1,27 +1,23 @@
+import 'package:flutter/material.dart';
+
 import '../models/hotel.dart';
 
-class FavoriteManager {
-  static final List<Hotel> _favorites = [];
+class FavoriteManager extends ChangeNotifier {
+  final List<Hotel> _favorites = [];
 
-  static List<Hotel> get favorites => _favorites;
+  List<Hotel> get favorites => _favorites;
 
-  static bool isFavorite(Hotel hotel) {
+  bool isFavorite(Hotel hotel) {
     return _favorites.contains(hotel);
   }
 
-  static void addFavorite(Hotel hotel) {
-    _favorites.add(hotel);
-  }
-
-  static void removeFavorite(Hotel hotel) {
-    _favorites.remove(hotel);
-  }
-
-  static void toggleFavorite(Hotel hotel) {
-    if (isFavorite(hotel)) {
-      removeFavorite(hotel);
+  void toggleFavorite(Hotel hotel) {
+    if (_favorites.contains(hotel)) {
+      _favorites.remove(hotel);
     } else {
-      addFavorite(hotel);
+      _favorites.add(hotel);
     }
+
+    notifyListeners();
   }
 }

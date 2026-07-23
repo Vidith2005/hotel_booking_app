@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'features/auth/login_screen.dart';
 import 'features/auth/welcome_screen.dart';
+import 'package:provider/provider.dart';
+import 'services/favourite_manager.dart';
 
 void main() {
-  runApp(const HotelBookingApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => FavoriteManager(),
+      child: const HotelBookingApp(),
+    ),
+  );
 }
 
 class HotelBookingApp extends StatelessWidget {

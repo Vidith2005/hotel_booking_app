@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../../services/favourite_manager.dart';
 import '../widgets/hotel_card.dart';
 import 'hotel_details_screen.dart';
@@ -14,7 +14,8 @@ class FavouritesScreen extends StatefulWidget {
 class _FavouritesScreenState extends State<FavouritesScreen> {
   @override
   Widget build(BuildContext context) {
-    final favoriteHotels = FavoriteManager.favorites;
+    final favoriteHotels =
+        context.watch<FavoriteManager>().favorites;
 
     return Scaffold(
       appBar: AppBar(

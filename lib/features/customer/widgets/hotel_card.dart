@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../../models/hotel.dart';
 import '../../../services/favourite_manager.dart';
 
@@ -28,8 +28,10 @@ class HotelCard extends StatefulWidget {
 class _HotelCardState extends State<HotelCard> {
   @override
   Widget build(BuildContext context) {
+    final favoriteManager = context.watch<FavoriteManager>();
+
     final bool isFavorite =
-    FavoriteManager.isFavorite(widget.hotel);
+    favoriteManager.isFavorite(widget.hotel);
 
     return InkWell(
       borderRadius: BorderRadius.circular(15),
@@ -74,11 +76,9 @@ class _HotelCardState extends State<HotelCard> {
                       ),
 
                       IconButton(
-                        onPressed: () {
-                          setState(() {
-                            FavoriteManager.toggleFavorite(widget.hotel);
-                          });
-                        },
+    onPressed: () {
+    favoriteManager.toggleFavorite(widget.hotel);
+    },
                         icon: Icon(
                           isFavorite
                               ? Icons.favorite
