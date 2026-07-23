@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'bookings_screen.dart';
 import 'profile_screen.dart';
 import 'favourites_screen.dart';
 import '../widgets/search_bar_widget.dart';
@@ -23,7 +22,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     HomeTab(
       onHotelTap: _openHotelDetails,
     ),
-    const BookingsScreen(),
     const FavouritesScreen(),
     const ProfileScreen(),
   ];
@@ -62,10 +60,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: "Bookings",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
