@@ -81,13 +81,47 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 }
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   final Function(Hotel) onHotelTap;
 
   const HomeTab({
     super.key,
     required this.onHotelTap,
   });
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  final TextEditingController _searchController = TextEditingController();
+
+  late List<Hotel> filteredHotels;
+
+  @override
+  void initState() {
+    super.initState();
+    filteredHotels = List.from(hotels);
+  }
+
+  void _filterHotels(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredHotels = List.from(hotels);
+      } else {
+        filteredHotels = hotels.where((hotel) {
+          return hotel.name.toLowerCase().contains(query.toLowerCase()) ||
+              hotel.city.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,26 +151,62 @@ class HomeTab extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            const SearchBarWidget(),
+            SearchBarWidget(
+              controller: _searchController,
+              onChanged: _filterHotels,
+            ),
+
+            const SizedBox(height: 25),
 
             const SectionTitle(
               title: "Popular Hotels",
             ),
-
-            ...hotels.map(
+            if (filteredHotels.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.search_off,
+                        size: 70,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        "No hotels found",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Try searching with another name or city.",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+            ...filteredHotels.map(
                   (hotel) => HotelCard(
                 hotelName: hotel.name,
                 city: hotel.city,
                 rating: hotel.rating,
                 price: hotel.price,
-                    onTap: () => onHotelTap(hotel),
+                onTap: () => widget.onHotelTap(hotel),
               ),
             ),
+
+            const SizedBox(height: 20),
 
             const SectionTitle(
               title: "Recommended",
             ),
-
           ],
         ),
       ),

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({super.key});
+  final TextEditingController controller;
+  final Function(String) onChanged;
+
+  const SearchBarWidget({
+    super.key,
+    required this.controller,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      onChanged: onChanged,
       decoration: InputDecoration(
-        hintText: "Search hotels, cities...",
+        hintText: "Search hotels or cities",
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: const Icon(Icons.mic),
-        filled: true,
-        fillColor: Colors.grey.shade200,
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide.none,
         ),
       ),
     );
