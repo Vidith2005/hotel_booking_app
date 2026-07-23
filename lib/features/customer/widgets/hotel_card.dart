@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
-class HotelCard extends StatelessWidget {
+import '../../../models/hotel.dart';
+import '../../../services/favourite_manager.dart';
+
+class HotelCard extends StatefulWidget {
+  final Hotel hotel;
   final String hotelName;
   final String city;
   final double rating;
   final int price;
-
   final VoidCallback? onTap;
+
   const HotelCard({
     super.key,
+    required this.hotel,
     required this.hotelName,
     required this.city,
     required this.rating,
@@ -17,10 +22,18 @@ class HotelCard extends StatelessWidget {
   });
 
   @override
+  State<HotelCard> createState() => _HotelCardState();
+}
+
+class _HotelCardState extends State<HotelCard> {
+  @override
   Widget build(BuildContext context) {
+    final bool isFavorite =
+    FavoriteManager.isFavorite(widget.hotel);
+
     return InkWell(
       borderRadius: BorderRadius.circular(15),
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Card(
         elevation: 5,
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -30,7 +43,6 @@ class HotelCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-      
             ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(15),
@@ -42,64 +54,84 @@ class HotelCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-      
+
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-      
-                  Text(
-                    hotelName,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-      
-                  const SizedBox(height: 8),
-      
+
                   Row(
                     children: [
-      
+                      Expanded(
+                        child: Text(
+                          widget.hotelName,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            FavoriteManager.toggleFavorite(widget.hotel);
+                          });
+                        },
+                        icon: Icon(
+                          isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: isFavorite
+                              ? Colors.red
+                              : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  Row(
+                    children: [
                       const Icon(
                         Icons.star,
                         color: Colors.amber,
                         size: 20,
                       ),
-      
+
                       const SizedBox(width: 5),
-      
-                      Text(rating.toString()),
-      
+
+                      Text(widget.rating.toString()),
+
                       const Spacer(),
-      
+
                       const Icon(
                         Icons.location_on,
                         color: Colors.red,
                         size: 20,
                       ),
-      
-                      Text(city),
+
+                      Text(widget.city),
                     ],
                   ),
-      
+
                   const SizedBox(height: 10),
-      
+
                   Row(
                     children: [
-      
                       Text(
-                        "₹$price / night",
+                        "₹${widget.price} / night",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           color: Colors.indigo,
                         ),
                       ),
-      
+
                       const Spacer(),
-      
+
                       const Icon(Icons.arrow_forward_ios),
                     ],
                   ),

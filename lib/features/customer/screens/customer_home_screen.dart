@@ -194,6 +194,7 @@ class _HomeTabState extends State<HomeTab> {
             else
             ...filteredHotels.map(
                   (hotel) => HotelCard(
+                    hotel: hotel,
                 hotelName: hotel.name,
                 city: hotel.city,
                 rating: hotel.rating,
