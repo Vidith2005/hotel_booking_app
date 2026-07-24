@@ -59,6 +59,20 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
+  int get totalNights {
+    if (checkInDate == null || checkOutDate == null) {
+      return 0;
+    }
+
+    return checkOutDate!
+        .difference(checkInDate!)
+        .inDays;
+  }
+
+  int get totalPrice {
+    return totalNights * widget.hotel.price;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +176,43 @@ class _BookingScreenState extends State<BookingScreen> {
                   ],
                 ),
               ),
-            ), //guests card
+            ), //guests selector card
+
+            const SizedBox(height: 25),
+
+            Card(
+              color: Colors.indigo.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nights: $totalNights",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Text(
+                      "Price per night: ₹${widget.hotel.price}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+
+                    const Divider(),
+
+                    Text(
+                      "Total: ₹$totalPrice",
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ), //total price card
           ],
         ),
       ),
