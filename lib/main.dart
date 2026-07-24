@@ -3,14 +3,17 @@ import 'features/auth/login_screen.dart';
 import 'features/auth/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'services/favourite_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => FavoriteManager(),
-      child: const HotelBookingApp(),
-    ),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  runApp(const HotelBookingApp());
 }
 
 class HotelBookingApp extends StatelessWidget {
