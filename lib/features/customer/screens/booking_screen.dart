@@ -93,7 +93,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: _selectCheckInDate,
               ),
-            ),
+            ), //check-in card
 
             const SizedBox(height: 20),
 
@@ -109,7 +109,60 @@ class _BookingScreenState extends State<BookingScreen> {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: _selectCheckOutDate,
               ),
+            ), //check-out card
+
+            const SizedBox(height: 25),
+
+            const Text(
+              "Guests",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+
+            const SizedBox(height: 15),
+
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: guests > 1
+                          ? () {
+                        setState(() {
+                          guests--;
+                        });
+                      }
+                          : null,
+                      icon: const Icon(Icons.remove_circle),
+                    ),
+
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "$guests Guest${guests > 1 ? "s" : ""}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          guests++;
+                        });
+                      },
+                      icon: const Icon(Icons.add_circle),
+                    ),
+                  ],
+                ),
+              ),
+            ), //guests card
           ],
         ),
       ),
