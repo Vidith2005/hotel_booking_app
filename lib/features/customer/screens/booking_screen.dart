@@ -73,6 +73,27 @@ class _BookingScreenState extends State<BookingScreen> {
     return totalNights * widget.hotel.price;
   }
 
+  void _confirmBooking() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Booking Confirmed 🎉"),
+        content: Text(
+          "Your booking for ${widget.hotel.name} has been confirmed.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              Navigator.pop(context); // Back to hotel details
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,6 +234,31 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ),
             ), //total price card
+
+            const SizedBox(height: 30),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (checkInDate == null || checkOutDate == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Please select both dates."),
+                      ),
+                    );
+                    return;
+                  }
+
+                  _confirmBooking();
+                },
+                child: const Text(
+                  "Confirm Booking",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
           ],
         ),
       ),
