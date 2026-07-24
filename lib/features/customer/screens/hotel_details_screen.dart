@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/hotel.dart';
+import 'booking_screen.dart';
 
 class HotelDetailsScreen extends StatelessWidget {
   final Hotel hotel;
@@ -80,7 +81,16 @@ class HotelDetailsScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingScreen(
+                        hotel: hotel,
+                      ),
+                    ),
+                  );
+                },
                 child: const Text("Book Now"),
               ),
             ),

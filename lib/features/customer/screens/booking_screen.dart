@@ -15,6 +15,50 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  DateTime? checkInDate;
+  DateTime? checkOutDate;
+
+  int guests = 1;
+
+  Future<void> _selectCheckInDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030),
+    );
+
+    if (picked != null) {
+      setState(() {
+        checkInDate = picked;
+      });
+    }
+  }
+
+  Future<void> _selectCheckOutDate() async {
+    if (checkInDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select the check-in date first."),
+        ),
+      );
+      return;
+    }
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: checkInDate!.add(const Duration(days: 1)),
+      firstDate: checkInDate!.add(const Duration(days: 1)),
+      lastDate: DateTime(2030),
+    );
+
+    if (picked != null) {
+      setState(() {
+        checkOutDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +66,51 @@ class _BookingScreenState extends State<BookingScreen> {
         title: Text("Book ${widget.hotel.name}"),
       ),
 
-      body: const Center(
-        child: Text(
-          "Booking Screen",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Select Check-in Date",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.calendar_today),
+                title: const Text("Check-in"),
+                subtitle: Text(
+                  checkInDate == null
+                      ? "Select a date"
+                      : "${checkInDate!.day}/${checkInDate!.month}/${checkInDate!.year}",
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: _selectCheckInDate,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.calendar_month),
+                title: const Text("Check-out"),
+                subtitle: Text(
+                  checkOutDate == null
+                      ? "Select a date"
+                      : "${checkOutDate!.day}/${checkOutDate!.month}/${checkOutDate!.year}",
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: _selectCheckOutDate,
+              ),
+            ),
+          ],
         ),
       ),
     );
